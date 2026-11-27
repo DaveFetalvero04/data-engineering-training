@@ -82,5 +82,9 @@ print(df)
 print("Original DataFrame:", len(df))
 print("Missing Customers:", len(missing_customers))
 
-pd.set_option('display.max_columns', None)
-pd.set_option('display.width', None)
+cleaned_df = df.dropna(subset=['CustomerID'])
+
+print(cleaned_df)
+print("Original records:", len(df))
+print("Cleaned records:", len(cleaned_df))
+
