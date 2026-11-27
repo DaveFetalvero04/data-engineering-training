@@ -88,3 +88,71 @@ print(cleaned_df)
 print("Original records:", len(df))
 print("Cleaned records:", len(cleaned_df))
 
+filled_df = df.copy()
+
+filled_df['CustomerID'] = filled_df['CustomerID'].fillna(-1)
+
+print(filled_df[['OrderID', 'CustomerID']])
+
+print(df.duplicated())
+print("Total duplicates:", df.duplicated().sum())
+
+deduplicated_df = df.drop_duplicates()
+
+print(deduplicated_df)
+
+print("Original records:", len(df))
+print("After removing duplicates:", len(deduplicated_df))
+
+df.duplicated(subset=['OrderID'])
+
+df['StoreID'] = df['StoreID'].astype(str)
+
+print(df.dtypes)
+
+print(df['OrderDate'].dtype)
+
+print(df['OrderDate'].dt.month)
+print(df['OrderDate'].dt.year)
+print(df['OrderDate'].dt.day)
+
+df['Year'] = df['OrderDate'].dt.year
+df['Month'] = df['OrderDate'].dt.month
+df['Day'] = df['OrderDate'].dt.day
+
+print(df)
+
+print(df.shape)
+
+sorted_df = df.sort_values(by='OrderDate', ascending=False)
+
+print(sorted_df)
+
+sorted_df = df.sort_values(
+    by=['StoreID', 'OrderID'],
+    ascending=[True, True]
+)
+
+print(sorted_df)
+
+average_customer = df.groupby('StoreID')['CustomerID'].mean()
+
+print(average_customer)
+
+orders_per_store = df.groupby('StoreID').size()
+
+print(orders_per_store)
+
+store_summary = df.groupby('StoreID').agg(
+    TotalOrders=('OrderID', 'count'),
+    AverageCustomerID=('CustomerID', 'mean')
+)
+
+print(store_summary)
+
+
+payment_summary = df.groupby(
+    ['StoreID', 'PaymentMethod']
+).size().reset_index(name='TotalOrders')
+
+print(payment_summary)
